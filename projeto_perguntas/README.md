@@ -2,6 +2,8 @@
 
 A new Flutter project.
 
+This project is about a simple app about questions and pointing(quiz).
+
 ## Getting Started
 
 This project is a starting point for a Flutter application.
