@@ -28,14 +28,21 @@ class PerguntaApp extends StatelessWidget {
         appBar: AppBar(
           title: Text('Perguntas'),
         ),
-        body: Column(
-          children: [
-            Text(perguntas[0]),
-            RaisedButton(
-              child: ,
-            ),
-          ],
-        ),
+        body: Column(children: <Widget>[
+          Text(perguntas[0]),
+          ElevatedButton(
+            child: Text('PERGUNTA 1'),
+            onPressed: null,
+          ),
+          ElevatedButton(
+            child: Text('PERGUNTA 2'),
+            onPressed: null,
+          ),
+          ElevatedButton(
+            child: Text('PERGUNTA 3'),
+            onPressed: null,
+          ),
+        ]),
       ),
     );
   }
