@@ -14,6 +14,17 @@ class PerguntaApp extends StatelessWidget {
   -> Esse StatelessWidget é que faz a classe PerguntaApp se tornar um Widget
   */
 
+  // criando um metodo que responde à ação de clicar no botão
+  void responder() {
+    print('Pergunta respondida');
+  }
+
+  void Function() funcaoQueRetornaUmaoutraFuncao() {
+    return () {
+      print('Pergunta respondida! #02');
+    };
+  }
+
   // metodo que vai criar o widget
   @override
   Widget build(BuildContext context) {
@@ -32,15 +43,15 @@ class PerguntaApp extends StatelessWidget {
           Text(perguntas[0]),
           ElevatedButton(
             child: Text('PERGUNTA 1'),
-            onPressed: null,
+            onPressed: responder,
           ),
           ElevatedButton(
             child: Text('PERGUNTA 2'),
-            onPressed: null,
+            onPressed: responder,
           ),
           ElevatedButton(
             child: Text('PERGUNTA 3'),
-            onPressed: null,
+            onPressed: funcaoQueRetornaUmaoutraFuncao(),
           ),
         ]),
       ),
