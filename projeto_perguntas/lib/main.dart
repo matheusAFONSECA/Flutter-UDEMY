@@ -18,33 +18,54 @@ esse atributo se torne privado.
 
 class _PerguntaAppState extends State<PerguntaApp> {
   var _perguntaSelecionada = 0;
+  var _pontuacaoTotal = 0;
 
   final _perguntas = const [
     {
       'texto': 'Qual é a sua cor favorita?',
       'resposta': [
-        'Preto',
-        'Vermelho',
-        'Verde',
-        'Branco',
+        {'texto': 'Preto', 'pontuacao': 10},
+        {'texto': 'Vermelho', 'pontuacao': 20},
+        {'texto': 'Verde', 'pontuacao': 30},
+        {'texto': 'Branco', 'pontuacao': 40},
       ],
     },
     {
       'texto': 'Qual é o seu animal favorito?',
-      'resposta': ['Coelho', 'Cobra', 'Elefante', 'Leão'],
+      'resposta': [
+        {'texto': 'Coelho', 'pontuacao': 10},
+        {'texto': 'Cobra', 'pontuacao': 20},
+        {'texto': 'Elefante', 'pontuacao': 30},
+        {'texto': 'Leão', 'pontuacao': 40},
+      ],
     },
     {
       'texto': 'Qual é o seu instrutor favorito?',
-      'resposta': ['Maria', 'João', 'Leo', 'Pedro'],
+      'resposta': [
+        {'texto': 'Maria', 'pontuacao': 10},
+        {'texto': 'João', 'pontuacao': 20},
+        {'texto': 'Leo', 'pontuacao': 30},
+        {'texto': 'Pedro', 'pontuacao': 40},
+      ],
     }
   ];
 
-  void _responder() {
+  void _responder(int pontuacao) {
     if (temPerguntaSelecionada) {
       setState(() {
         _perguntaSelecionada++;
+        _pontuacaoTotal += pontuacao;
       });
     }
+  }
+
+  // metodo para reiniciar o questionario
+  void _reiniciarQuestionario() {
+    setState(() {
+      // reiniciando as var de controle
+      _perguntaSelecionada = 0;
+      _pontuacaoTotal = 0;
+    });
   }
 
   // corrigindo o erro de ter mais do que o numero de perguntas
@@ -79,7 +100,7 @@ class _PerguntaAppState extends State<PerguntaApp> {
                 perguntasSelecionada: _perguntaSelecionada,
                 quandoResponder: _responder,
               )
-            : Resultado(),
+            : Resultado(_pontuacaoTotal, _reiniciarQuestionario),
       ),
     );
   }
