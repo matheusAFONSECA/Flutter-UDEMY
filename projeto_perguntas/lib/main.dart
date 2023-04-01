@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import './questao.dart';
-import './resposta.dart';
+import './resultado.dart';
+import './questionario.dart';
 
 // modo 'correto' do flutter de iniciar o app
 main() => runApp(PerguntaApp());
@@ -19,37 +19,50 @@ esse atributo se torne privado.
 class _PerguntaAppState extends State<PerguntaApp> {
   var _perguntaSelecionada = 0;
 
+  final _perguntas = const [
+    {
+      'texto': 'Qual é a sua cor favorita?',
+      'resposta': [
+        'Preto',
+        'Vermelho',
+        'Verde',
+        'Branco',
+      ],
+    },
+    {
+      'texto': 'Qual é o seu animal favorito?',
+      'resposta': ['Coelho', 'Cobra', 'Elefante', 'Leão'],
+    },
+    {
+      'texto': 'Qual é o seu instrutor favorito?',
+      'resposta': ['Maria', 'João', 'Leo', 'Pedro'],
+    }
+  ];
+
   void _responder() {
-    setState(() {
-      _perguntaSelecionada++;
-    });
+    if (temPerguntaSelecionada) {
+      setState(() {
+        _perguntaSelecionada++;
+      });
+    }
+  }
+
+  // corrigindo o erro de ter mais do que o numero de perguntas
+  bool get temPerguntaSelecionada {
+    return _perguntaSelecionada < _perguntas.length;
   }
 
   // metodo que vai criar o widget
   @override
   Widget build(BuildContext context) {
-    final perguntas = [
-      {
-        'texto': 'Qual é a sua cor favorita?',
-        'resposta': ['Preto', 'Vermelho', 'Verde', 'Brsnco'],
-      },
-      {
-        'texto': 'Qual é o seu animal favorito?',
-        'resposta': ['Coelho', 'Cobra', 'Elefante', 'Leão'],
-      },
-      {
-        'texto': 'Qual é o seu instrutor favorito?',
-        'resposta': ['Maria', 'João', 'Leo', 'Pedro'],
-      }
-    ];
+    // usando o recurso .map para fazer uma lista de Widgets
+    /*List<Widget> widgets =
+        respostas.map((t) => Resposta(t, _responder)).toList();*/
 
-    // fazendo uma lista de Widgets de respostas para colocarmos no botão
-    List<Widget> respostas = [];
-
-    for (String textoResposta
-        in perguntas[_perguntaSelecionada].cast()['resposta']) {
-      respostas.add(Resposta(textoResposta, _responder));
-    }
+    // forma "bruta" de fazer os widgets
+    /*for (String textoResposta in respostas) {
+      widgets.add(Resposta(textoResposta, _responder));
+    }*/
 
     return MaterialApp(
       home: Scaffold(
@@ -58,13 +71,15 @@ class _PerguntaAppState extends State<PerguntaApp> {
           title: Text('Perguntas'),
           backgroundColor: Colors.red,
           centerTitle: true,
+          shadowColor: Colors.white,
         ),
-        body: Column(
-          children: <Widget>[
-            Questao(perguntas[_perguntaSelecionada]['texto'].toString()),
-            ...respostas,
-          ],
-        ),
+        body: temPerguntaSelecionada
+            ? Questionario(
+                perguntas: _perguntas,
+                perguntasSelecionada: _perguntaSelecionada,
+                quandoResponder: _responder,
+              )
+            : Resultado(),
       ),
     );
   }
