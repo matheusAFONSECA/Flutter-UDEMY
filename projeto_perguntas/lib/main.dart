@@ -19,12 +19,6 @@ class PerguntaApp extends StatelessWidget {
     print('Pergunta respondida');
   }
 
-  void Function() funcaoQueRetornaUmaoutraFuncao() {
-    return () {
-      print('Pergunta respondida! #02');
-    };
-  }
-
   // metodo que vai criar o widget
   @override
   Widget build(BuildContext context) {
@@ -47,14 +41,18 @@ class PerguntaApp extends StatelessWidget {
           ),
           ElevatedButton(
             child: Text('PERGUNTA 2'),
-            onPressed: responder,
+            onPressed: () {
+              // passando a função direto no onPressed
+              print('Responta 2 foi selecionada');
+            },
           ),
           ElevatedButton(
             child: Text('PERGUNTA 3'),
-            onPressed: funcaoQueRetornaUmaoutraFuncao(),
+            onPressed: () =>
+                print('Resposta 3!!!'), // fazendo a ação de forma arrow
           ),
         ]),
       ),
-    );hhhhhhhhhhhhhh
+    );
   }
 }
