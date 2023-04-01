@@ -6,6 +6,8 @@ main() => runApp(PerguntaApp());
 -> A classe que esta dentro dos parenteses do runApp(Classe_aqui_dentro)
 vai ser a raiz que compôe o App que estamos criando, ou seja, será o ponto
 de partida de onde o nosso app vai funcionar
+-> Ao salvarmos o  arquivo em que estamos modificando o projeto em tempo real
+as modificações são feitas no app
 */
 
 // vamos criar um widget
@@ -14,9 +16,12 @@ class PerguntaApp extends StatelessWidget {
   -> Esse StatelessWidget é que faz a classe PerguntaApp se tornar um Widget
   */
 
+  var perguntaSelecionada = 0;
+
   // criando um metodo que responde à ação de clicar no botão
   void responder() {
-    print('Pergunta respondida');
+    perguntaSelecionada++;
+    print(perguntaSelecionada);
   }
 
   // metodo que vai criar o widget
@@ -34,22 +39,15 @@ class PerguntaApp extends StatelessWidget {
           title: Text('Perguntas'),
         ),
         body: Column(children: <Widget>[
-          Text(perguntas[0]),
+          Text(perguntas[perguntaSelecionada]),
           ElevatedButton(
             child: Text('PERGUNTA 1'),
             onPressed: responder,
           ),
-          ElevatedButton(
-            child: Text('PERGUNTA 2'),
-            onPressed: () {
-              // passando a função direto no onPressed
-              print('Responta 2 foi selecionada');
-            },
-          ),
+          ElevatedButton(child: Text('PERGUNTA 2'), onPressed: responder),
           ElevatedButton(
             child: Text('PERGUNTA 3'),
-            onPressed: () =>
-                print('Resposta 3!!!'), // fazendo a ação de forma arrow
+            onPressed: responder,
           ),
         ]),
       ),
