@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
-import 'dart:ui' show lerpDouble;
+// imports necessários para fazer o download do PDF
+import 'package:flutter/material.dart';
+import 'package:pdf/pdf.dart';
+import 'package:pdf/widgets.dart' as pdfWidgets;
+import 'package:path_provider/path_provider.dart';
+import 'dart:io';
 
 void main() => runApp(MyApp());
 
@@ -26,6 +31,12 @@ class _NotesListState extends State<NotesList> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Notes'),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.picture_as_pdf),
+            onPressed: () => _exportPDF(),
+          ),
+        ],
       ),
       body: ListView.builder(
         itemCount: _notes.length,
@@ -54,6 +65,27 @@ class _NotesListState extends State<NotesList> {
         _notes.add(note);
       });
     }
+  }
+
+  void _exportPDF() async {
+    final pdf = pdfWidgets.Document();
+
+    pdf.addPage(pdfWidgets.Page(
+      build: (context) => pdfWidgets.Column(
+        crossAxisAlignment: pdfWidgets.CrossAxisAlignment.start,
+        children: _notes.map((note) => pdfWidgets.Text(note)).toList(),
+      ),
+    ));
+
+    final directory = await getApplicationDocumentsDirectory();
+    final path = directory.path;
+
+    final file = File('$path/notes.pdf');
+    await file.writeAsBytes(await pdf.save());
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('PDF exportado com sucesso!')),
+    );
   }
 }
 
